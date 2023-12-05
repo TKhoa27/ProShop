@@ -5,6 +5,7 @@ import colors from "colors";
 import { ErrorHandler, NotFound } from "./middleware/errorMiddleware.js";
 import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import morgan from "morgan";
 
 dotenv.config();
 
@@ -13,6 +14,15 @@ connectDB();
 const app = express();
 
 app.use(express.json());
+app.use(morgan("dev"));
+const logRequest = (req, res, next) => {
+  // console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  // console.log("Request Body:", req.body);
+  // console.log("Request Params:", req.params);
+  // console.log("Request Query:", req.user);
+  next();
+};
+app.use(logRequest);
 
 app.use((req, res, next) => {
   console.log(req.originalUrl);

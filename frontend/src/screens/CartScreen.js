@@ -20,26 +20,24 @@ const CartScreen = () => {
   const history = useNavigate();
   const location = useLocation();
 
-  const cart = useSelector((state) => state.cart);
-  const { cartItems } = cart;
-
-  console.log(cartItems);
-
   const qty = location.search ? Number(location.search.split("=")[1]) : 1;
 
-  useEffect(() => {
-    if (productId) {
-      dispatch(addToCart(productId, qty));
-    }
-  }, [dispatch, productId, qty]);
+  const cart = useSelector((state) => state.cart);
+  const { cartItems } = cart;
 
   const removeFromCartHandler = (id) => {
     dispatch(removeFromCart(id));
   };
 
   const checkoutHandler = () => {
-    history("/login?redirect=shipping");
+    history("/login?redirect=/shipping");
   };
+
+  useEffect(() => {
+    if (productId) {
+      dispatch(addToCart(productId, qty));
+    }
+  }, [dispatch, productId, qty]);
 
   return (
     <Row>

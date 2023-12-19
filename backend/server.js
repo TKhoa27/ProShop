@@ -16,14 +16,14 @@ const app = express();
 
 app.use(express.json());
 app.use(morgan("dev"));
-const logRequest = (req, res, next) => {
-  // console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
-  // console.log("Request Body:", req.body);
-  // console.log("Request Params:", req.params);
-  // console.log("Request Query:", req.user);
-  next();
-};
-app.use(logRequest);
+// const logRequest = (req, res, next) => {
+//   console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+//   console.log("Request Body:", req.body);
+//   console.log("Request Params:", req.params);
+//   console.log("Request Query:", req.user);
+//   next();
+// };
+// app.use(logRequest);
 
 app.use((req, res, next) => {
   console.log(req.originalUrl);
@@ -37,6 +37,10 @@ app.get("/", (req, res) => {
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
+
+app.get("/api/config/paypal", (req, res) => {
+  res.send(process.env.PAYPAL_CLIENT_ID);
+});
 
 app.use(NotFound);
 app.use(ErrorHandler);
